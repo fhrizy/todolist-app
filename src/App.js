@@ -29,6 +29,7 @@ export default class App extends Component {
     const todoItem = {
       todo: this.state.todoValue,
       id: uuidv4(),
+      done: false,
     };
     if (this.state.todoValue !== "") {
       this.setState({ getTodoList: this.state.getTodoList.concat(todoItem) });
@@ -45,9 +46,13 @@ export default class App extends Component {
   }
 
   onDelete(itemId) {
+    const deletedItem = [...this.state.getTodoList].filter(
+      (id) => id.id !== itemId,
+    );
     this.setState({
-      getTodoList: [...this.state.getTodoList].filter((id) => id.id !== itemId),
+      getTodoList: deletedItem,
     });
+    window.localStorage.setItem("items", JSON.stringify(deletedItem));
   }
 
   editData(id, newValue) {
@@ -55,6 +60,10 @@ export default class App extends Component {
     this.state.getTodoList.map((todo) => {
       if (todo.id === id) {
         todo.todo = newValue;
+        window.localStorage.setItem(
+          "items",
+          JSON.stringify(this.state.getTodoList),
+        );
       }
     });
   }
