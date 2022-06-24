@@ -17,12 +17,18 @@ export default class App extends Component {
   }
 
   addValue = (e) => {
+    if (e.target.value.length > 40) return;
     this.setState({ todoValue: e.target.value });
   };
 
   editValue = (e) => {
+    if (e.target.value.length > 40) return;
     this.setState({ currentValue: e.target.value });
   };
+
+  useLocalStorage(item) {
+    window.localStorage.setItem("items", JSON.stringify(item));
+  }
 
   onAdd(e) {
     e.preventDefault();
@@ -34,7 +40,7 @@ export default class App extends Component {
     if (this.state.todoValue !== "") {
       this.setState({ getTodoList: this.state.getTodoList.concat(todoItem) });
       const updatedItems = [...this.state.getTodoList, todoItem];
-      window.localStorage.setItem("items", JSON.stringify(updatedItems));
+      this.useLocalStorage(updatedItems);
       this.setState({ todoValue: "" });
     }
   }
@@ -52,7 +58,7 @@ export default class App extends Component {
     this.setState({
       getTodoList: deletedItem,
     });
-    window.localStorage.setItem("items", JSON.stringify(deletedItem));
+    this.useLocalStorage(deletedItem);
   }
 
   onCheck = (todoItem) => {
@@ -62,7 +68,7 @@ export default class App extends Component {
     this.setState({
       getTodoList: checkedItem,
     });
-    window.localStorage.setItem("items", JSON.stringify(checkedItem));
+    this.useLocalStorage(checkedItem);
   };
 
   editData(id, newValue) {
@@ -70,10 +76,7 @@ export default class App extends Component {
     this.state.getTodoList.map((todo) => {
       if (todo.id === id) {
         todo.todo = newValue;
-        window.localStorage.setItem(
-          "items",
-          JSON.stringify(this.state.getTodoList),
-        );
+        this.useLocalStorage(this.state.getTodoList);
       }
     });
   }

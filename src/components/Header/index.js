@@ -8,7 +8,7 @@ export default class Header extends Component {
           Todo List
         </span>
         <span className="font-semibold">|</span>
-        <span className="w-3/6 font-semibold flex justify-center">Done</span>
+        <span className="w-3/6 font-semibold flex justify-center">Action</span>
       </header>
     );
   }
