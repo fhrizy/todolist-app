@@ -7,7 +7,13 @@ export default class Section extends Component {
   render() {
     return (
       <div className="header-container">
-        <span className="font-semibold">{this.props.todoItem.todo}</span>
+        <span
+          className={
+            "font-semibold " + (this.props.todoItem.done && "line-through")
+          }
+        >
+          {this.props.todoItem.todo}
+        </span>
         <input
           type="checkbox"
           checked={this.props.todoItem.done}
