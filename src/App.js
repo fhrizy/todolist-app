@@ -10,9 +10,9 @@ export default class App extends Component {
         ? JSON.parse(window.localStorage.getItem("items"))
         : [],
       todoValue: "",
-      editing: false,
       currentId: "",
       currentValue: "",
+      editing: false,
     };
   }
 
@@ -55,6 +55,16 @@ export default class App extends Component {
     window.localStorage.setItem("items", JSON.stringify(deletedItem));
   }
 
+  onCheck = (todoItem) => {
+    const checkedItem = this.state.getTodoList.map((item) =>
+      item.id === todoItem.id ? { ...item, done: !item.done } : item,
+    );
+    this.setState({
+      getTodoList: checkedItem,
+    });
+    window.localStorage.setItem("items", JSON.stringify(checkedItem));
+  };
+
   editData(id, newValue) {
     // eslint-disable-next-line array-callback-return
     this.state.getTodoList.map((todo) => {
@@ -87,7 +97,7 @@ export default class App extends Component {
               <Section
                 key={item.id}
                 todoItem={item}
-                menuOpen={this.state.menuOpen}
+                onCheck={this.onCheck}
                 onRequestEdit={this.onRequestEdit.bind(this)}
                 onDelete={this.onDelete.bind(this)}
               />

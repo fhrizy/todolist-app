@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Checkbox } from "react-daisyui";
 import "./section.scss";
 
 export default class Section extends Component {
@@ -9,8 +8,14 @@ export default class Section extends Component {
     return (
       <div className="header-container">
         <span className="font-semibold">{this.props.todoItem.todo}</span>
-        <Checkbox size="lg" />
-        <div className="toggle-action">
+        <input
+          type="checkbox"
+          checked={this.props.todoItem.done}
+          onChange={() => this.props.onCheck(this.props.todoItem)}
+        />
+        <div
+          className={"toggle-action " + (this.props.todoItem.done && "active")}
+        >
           <FontAwesomeIcon
             className="edit"
             icon={faPencil}
